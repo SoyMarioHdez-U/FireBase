@@ -38,15 +38,20 @@ namespace FireBase.Controllers
             var urlArchivoCargado = await tareaCargarArchivo;
 
             // Redirigir a la página "VerImagen"
-            return RedirectToAction("VerImagen");
+            return RedirectToAction("VerImagen", new { urlImagen = urlArchivoCargado });
         }
 
 
+       
+
         [HttpGet]
-        public ActionResult VerImagen()
+        public ActionResult VerImagen(string urlImagen)
         {
-            
-            return View();
+            // Puedes hacer cualquier procesamiento adicional si es necesario
+            // Por ejemplo, validar el URL de la imagen
+
+            // Puedes pasar el URL de la imagen a la vista como parte del modelo
+            return View((object)urlImagen); // Puedes pasar el URL de la imagen como parte del modelo
         }
 
         private readonly ILogger<HomeController> _logger;
