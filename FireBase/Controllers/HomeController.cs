@@ -11,13 +11,13 @@ namespace FireBase.Controllers
         [HttpPost]
         public async Task<ActionResult> SubirArchivo(IFormFile archivo)
         {
-            //Leemos el archivo subido
+            // Leemos el archivo subido
             Stream archivoASubir = archivo.OpenReadStream();
 
-            //Configuramos la conexión hacia Firebase
-            string email = "mario.hernandez2@catolica.edu.sv";
+            // Configuramos la conexión hacia Firebase
+            string email = "soymariohdez@gmail.com";
             string clave = "catolica";
-            string ruta = "gs://practica09-daw.appspot.com";
+            string ruta = "practica09-daw.appspot.com";
             string api_key = "AIzaSyDoGt86tnnpLevO8D25gh1ig3_1KI_HQW0";
 
             var auth = new FirebaseAuthProvider(new FirebaseConfig(api_key));
@@ -25,17 +25,30 @@ namespace FireBase.Controllers
             var cancellation = new CancellationTokenSource();
             var tokenUser = autenticarFireBase.FirebaseToken;
 
+            // Subir archivo a Firebase
             var tareaCargarArchivo = new FirebaseStorage(ruta,
                                                         new FirebaseStorageOptions
                                                         {
-                                                            AuthTokenAsyncFactory = () => Task.FromResult(tokenUser), ThrowOnCancel = true
+                                                            AuthTokenAsyncFactory = () => Task.FromResult(tokenUser),
+                                                            ThrowOnCancel = true
                                                         }
-                                                        ).Child("Archivos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token
-                );
+                                                        ).Child("Archivos").Child(archivo.FileName).PutAsync(archivoASubir, cancellation.Token);
 
+            // Esperar a que se complete la tarea de cargar el archivo
+            var urlArchivoCargado = await tareaCargarArchivo;
+
+            // Redirigir a la página "VerImagen"
             return RedirectToAction("VerImagen");
         }
-        
+
+
+        [HttpGet]
+        public ActionResult VerImagen()
+        {
+            
+            return View();
+        }
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
