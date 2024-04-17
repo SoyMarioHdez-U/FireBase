@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Carga de archivos";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">Cargar archivos a Firebase</a>.</p>
+</div>
+
+<div class="text-center">
+    <form asp-action="SubirArchivo" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="archivo">Seleccione el archivo a cargar</label>
+            <input type="file" class="form-control" id="archivo" name="archivo" />
+        </div>
+
+        <button type="submit" class="btn btnalert-primary mb-2">Subir archivo</button>
+    </form>
+
+
+
+</div>
+
